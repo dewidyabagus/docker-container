@@ -16,10 +16,10 @@ docker stats               # Melihat Statistics
 
 # DOCKER IMAGE
 ## Build Image Docker
-docker build -t svc-product:1.0.0 .
+docker build -t svc-product ./app
 
 ## Running Container Dengan Image svc-product:1.0.0
-docker create --name http-product --memory 100m --cpus 0.5 --publish 5001:5001 --network product_net --env-file ./.docker.env svc-product:1.0.0
+docker create --name http-product --memory 100m --cpus 0.5 --publish 5001:5001 --network product_net --env-file ./app/.docker.env svc-product:latest
 
 docker start http-product
 

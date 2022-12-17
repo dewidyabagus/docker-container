@@ -33,7 +33,9 @@ services:
     restart: on-failure
   
   http-product:
-    build: .
+    build:
+      context: "./app"
+      dockerfile: Dockerfile
     image: svc-product
     container_name: http-product
     deploy:
@@ -47,7 +49,7 @@ services:
     ports:
       - "5001:5001"
     env_file:
-      - ./.docker.env
+      - ./app/.docker.env
     networks:
       - product_net
     depends_on:
