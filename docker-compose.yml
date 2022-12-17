@@ -59,7 +59,7 @@ services:
 
 volumes:
   product_vol:
-    name: pgsql_product
+    name: product_vol
 
 networks:
   product_net:
