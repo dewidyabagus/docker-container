@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  pgsql-product:
+    image: postgres:14-alpine3.16
+    container_name: pgsql-product
+    deploy:
+      resources:
+        reservations:
+          cpus: "0.1"
+          memory: 100m
+        limits:
+          cpus: "0.2"
+          memory: 200m
+    ports:
+      - "5440:5432"
+    environment:
+      POSTGRES_DB: products
+      POSTGRES_PASSWORD: qwerty
+    volumes:
+      - type: volume
+        source: product_vol
+        target: "/var/lib/postgresql/data"
+        read_only: false
+    networks:
+      - product_net
+    healthcheck:
+      start_period: 5s
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      test: ["CMD", "pg_isready"]
+    restart: on-failure
+  
+  http-product:
+    build: .
+    image: svc-product
+    container_name: http-product
+    deploy:
+      resources:
+        reservations:
+          cpus: "0.05"
+          memory: 50m
+        limits:
+          cpus: "0.1"
+          memory: 100m
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./.docker.env
+    networks:
+      - product_net
+    depends_on:
+      pgsql-product:
+        condition: service_healthy
+    restart: on-failure
+
+volumes:
+  product_vol:
+    name: pgsql_product
+
+networks:
+  product_net:
+    name: product_net
+    driver: bridge
