@@ -22,7 +22,7 @@ WORKDIR /app
 
 COPY --from=builder /app/main .
 
-HEALTHCHECK --start-period=10s --interval=5s --timeout=10s --retries=3 CMD curl -f http://localhost:5001/ping
+HEALTHCHECK --start-period=10s --interval=5s --timeout=10s --retries=3 CMD curl -f http://localhost:${HTTP_PORT}/ping
 
 EXPOSE ${HTTP_PORT}
 
