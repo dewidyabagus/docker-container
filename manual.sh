@@ -26,3 +26,17 @@ docker start http-product
 ## Disconnect & Connect Network
 docker network disconnect product_net pgsql-product
 docker network connect product_net pgsql-product
+
+# DOCKER COMPOSE
+## Build Image
+docker compose build
+
+## Membuat, Melihat, Menjalankan, Menghentikan dan Menghapus Container
+docker compose create
+docker compose ps
+docker compose start
+docker compose stop
+docker compose down
+
+docker compose ls        # Melihat project yang berjalan
+docker compose up -d     # Membuat dan menjalankan container secara background
